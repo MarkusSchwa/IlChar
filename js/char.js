@@ -1,12 +1,12 @@
 const getCharList = () => {
     const CharList = [];
-    var names = "";
+    let names = "";
     for (let [key, value] of Object.entries(localStorage)) {
         console.log(`Local: ${key}`);
         if (key != 'Regeln')
         {
-            var xml = $.parseXML(value);
-            var c = new Char(key,xml);
+            let xml = $.parseXML(value);
+            let c = new Char(key,xml);
             CharList.push(c);
         }
     }

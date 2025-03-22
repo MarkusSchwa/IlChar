@@ -24,7 +24,7 @@ self.addEventListener('install', (event) => {
 // Aktivieren des Service Workers und Aufräumen von alten Caches
 self.addEventListener('activate', (event) => {
     const cacheWhitelist = [CACHE_NAME];
-    console.log('Cache aufräumen wird versucht.');
+    console.log('Serviceworker activate.');
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
@@ -41,15 +41,15 @@ self.addEventListener('activate', (event) => {
 
 // Abrufen von gecachten Ressourcen
 self.addEventListener('fetch', (event) => {
-    console.log('Cache wird gesucht.');
+    console.log('Serviceworker fetch.');
     event.respondWith(
         caches.match(event.request)
             .then(async cachedResponse => {
                 if (cachedResponse) {
-                    console.log('Serviceworker ruft Daten aus dem Cache ab.',cachedResponse);
+                    console.log('SW holt aus dem Cache: ' + cachedResponse.url);
                     return cachedResponse;
                 }
-                console.log('Serviceworker holt Daten aus dem Netz.');
+                console.log('SW holt aus dem Netz: ' + event.request.url);
                 return fetch(event.request);
             })
     );

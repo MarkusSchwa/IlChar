@@ -23,8 +23,8 @@ async function readChar(event) {
   const key = file.name.replace(/\.[^/.]+$/, '');
   const text = await file.text();
   // Version 8 prüfen
-  var xml = $.parseXML(text);
-  var CharVersion = $(xml).find("CharakterVersion").text();
+  let xml = $.parseXML(text);
+  let CharVersion = $(xml).find("CharakterVersion").text();
   if (CharVersion != '8') alert('App unterstützt Version 8. Charakter hat Version ' + CharVersion +'. Könnte Probleme bereiten.')
   localStorage.setItem(key,text);
   for (let [key, value] of Object.entries(localStorage)) {

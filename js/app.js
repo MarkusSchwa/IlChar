@@ -35,10 +35,10 @@ $( document ).ready(function() {
         $("#btnDB").text("Regeln bereits importiert"); 
         $("#btnDB").prop("disabled", true);
     }
-    var CharNames = "";
+    let CharNames = "";
     getCharList().forEach(function(c) {
         CharNames += (CharNames == ""?"":", ") + c.Name;
-var risky = c.Version == supportedVersion;
+let risky = c.Version == supportedVersion;
         $('#CharListShow').append('<div class="card' + (risky?'':' risky') + '">' + c.show('','<br>') 
             + (risky?'':'<div class="riskyNote">Nicht unterstützte Version ' + c.Version + '.<br>Könnte Probleme machen.<br>Es wird Version ' 
                 + supportedVersion + ' unterstützt.</div>') 
