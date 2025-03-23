@@ -39,12 +39,12 @@ $( document ).ready(function() {
     getCharList().forEach(function(c) {
         CharNames += (CharNames == ""?"":", ") + c.Name;
 let risky = c.Version == supportedVersion;
-        $('#CharListShow').append('<div class="card' + (risky?'':' risky') + '">' + c.show('','<br>') 
+        $('#CharListShow').append('<div class="card' + (risky?'':' risky') + '"><div>' + c.show('','<br>') + '</div>' 
             + (risky?'':'<div class="riskyNote">Nicht unterstützte Version ' + c.Version + '.<br>Könnte Probleme machen.<br>Es wird Version ' 
                 + supportedVersion + ' unterstützt.</div>') 
-                + '<div>'
-                + '<a class="card--link" href="#" onclick="show(\'' + c.Name + '\');return false;">Zeige</a>'
-                +'<a class="card--link" href="#" onclick="remove(\'' + c.Name + '\');return false;">Lösche</a>'
+                + '<div class="buttons">'
+                + '<a class="card-link" href="#" onclick="show(\'' + c.Name + '\');return false;">Zeige</a>'
+                +'<a class="card-link" href="#" onclick="remove(\'' + c.Name + '\');return false;">Lösche</a>'
                 +'</div>'
             + '</div>');
     });

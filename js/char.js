@@ -2,7 +2,6 @@ const getCharList = () => {
     const CharList = [];
     let names = "";
     for (let [key, value] of Object.entries(localStorage)) {
-        console.log(`Local: ${key}`);
         if (key != 'Regeln')
         {
             let xml = $.parseXML(value);
@@ -13,6 +12,6 @@ const getCharList = () => {
     CharList.forEach(function(c) {
         names += (names == ""?"":", ") + c.Name;
     });
-    console.log('intern: ' + names);
+    console.log('Instanzen: ' + names);
     return CharList;
 }
