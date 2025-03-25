@@ -1,6 +1,6 @@
 
 
-$('body').on('change', 'input[type=file]', async function() { 
+$('.files').on('change', 'input[type=file]', async function() { 
   const id = this.id;
   const file = this.files[0];
   let key = file.name.replace(/\.[^/.]+$/, ''); 
@@ -20,8 +20,10 @@ $('body').on('change', 'input[type=file]', async function() {
   location.reload();
 })
 
-async function remove(key) {
+$('#CharListShow').on('click', '.delChar', async function() {
+  const key = this.id;
   localStorage.removeItem(key);
   location.reload();
-}
+})
+
 

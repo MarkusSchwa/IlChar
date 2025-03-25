@@ -44,7 +44,7 @@ let risky = c.Version == supportedVersion;
                 + supportedVersion + ' unterstützt.</div>') 
                 + '<div class="buttons">'
                 + '<a class="card-link" href="#" onclick="show(\'' + c.Name + '\');return false;">Zeige</a>'
-                +'<a class="card-link" href="#" onclick="remove(\'' + c.Name + '\');return false;">Lösche</a>'
+                +'<a class="card-link delChar" href="#" id = "' + c.Name + '" >Lösche</a>'
                 +'</div>'
             + '</div>');
     });
