@@ -43,9 +43,9 @@ let risky = c.Version == supportedVersion;
             + (risky?'':'<div class="riskyNote">Nicht unterstützte Version ' + c.Version + '.<br>Könnte Probleme machen.<br>Es wird Version ' 
                 + supportedVersion + ' unterstützt.</div>') 
                 + '<div class="buttons">'
-                + '<a class="card-link" href="#" onclick="show(\'' + c.Name + '\');return false;">Zeige</a>'
-                +'<a class="card-link delChar" href="#" id = "' + c.Name + '" >Lösche</a>'
-                +'</div>'
+                + '<a class="card-link showChar" href="#" id = "' + c.Name + '" >Zeige</a>'
+                + '<a class="card-link delChar" href="#" id = "' + c.Name + '" >Lösche</a>'
+                + '</div>'
             + '</div>');
     });
     console.log(CharNames);
