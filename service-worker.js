@@ -3,10 +3,10 @@ const urlsToCache = [
     '/',
     '/index.html',
     'css/style.css',
-    'js/app.js',
-    'js/classes.js',
-    'js/char.js',
-    'js/files.ts'
+    'scripts/app.js',
+    'scripts/classes.js',
+    'scripts/char.js',
+    'scripts/files.ts'
 ];
 
 // Installieren des Service Workers und Caching der Ressourcen
