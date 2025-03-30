@@ -27,8 +27,4 @@ for (let i = 0; i < localStorage.length; i++) {
     }
 }
 ;
-Chars.forEach(function (c) {
-    names += (names == "" ? "" : ", ") + c.Name;
-});
-console.log('Instanzen: ' + names);
 //# sourceMappingURL=char.js.map

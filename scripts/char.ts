@@ -32,10 +32,5 @@ class Char {
         }
     }; 
 
-    Chars.forEach(function(c) {
-        names += (names == ""?"":", ") + c.Name;
-    });
-    console.log('Instanzen: ' + names);
- 
-   
+  
 

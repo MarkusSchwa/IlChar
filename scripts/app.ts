@@ -54,15 +54,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
             + '</div>'
             + '</div>');
     }); 
-    console.log(CharNames);
+    console.log('Instanzen: ' + CharNames);
     //Button zum Löschen der Charktere aktivieren
     Array.from(document.getElementsByClassName('delChar')).forEach((btnDel) => {
         btnDel.addEventListener('click', (event) => {
-          alert('Charakter ' + (event.target as HTMLButtonElement).id + ' wird gelöscht.');
-        const btn = event.target as HTMLButtonElement;
-        const key = btn.id; 
-        localStorage.removeItem(key);
-        location.reload();
+            alert('Charakter ' + (event.target as HTMLButtonElement).id + ' wird gelöscht.');
+            const btn = event.target as HTMLButtonElement;
+            const key = btn.id;
+            localStorage.removeItem(key);
+            location.reload();
+        })
+    });
+    //Button zum Anzeigen der Charktere aktivieren
+    Array.from(document.getElementsByClassName('showChar')).forEach((btnShow) => {
+        btnShow.addEventListener('click', (event) => {
+            const key = (event.target as HTMLButtonElement).id;
+            alert('Charakter ' + key + ' wird angezeigt.');
+            const details = document.getElementById('CharDetailsShow') ;
+            if (details) {
+                const char = Chars.find(c => c.Name === key);
+                if (!char) {
+                    console.error('Charakter nicht gefunden:', key);
+                    return;
+                }
+                details.innerHTML = char.show('short', '<br>'); 
+            }
         })
     });
 })
