@@ -1,29 +1,39 @@
 
-
-$('.files').on('change', 'input[type=file]', async function() { 
-  const id = this.id;
-  const file = this.files[0];
-  let key = file.name.replace(/\.[^/.]+$/, ''); 
-  const text = await file.text();
-  if (id == 'rulesInput'){
+document.getElementById('rulesInput')?.addEventListener('change', (event) => {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    const file = input.files[0];
+    let key = file.name.replace(/\.[^/.]+$/, '');
     if (key == 'datenbank') key = 'Regeln'; else {
-    alert ('Es dürfen nur datenbank.xml Dateien als Regeln geladen werden.');
-    return;}
-  } else {
-  // Version 8 prüfen
-    let xml = $.parseXML(text);
-    let CharVersion = $(xml).find("CharakterVersion").text();
-    if (CharVersion == '') {alert('Das ist keine Ilaris-Charakter-Datei und kann somit nicht geladen werden.'); return;} else
-    if (CharVersion != '8') alert('App unterstützt Version 8. Charakter hat Version ' + CharVersion +'. Könnte Probleme bereiten.')
-  } 
-  localStorage.setItem(key,text);
-  location.reload();
-})
+      alert('Es dürfen nur datenbank.xml Dateien als Regeln geladen werden.');
+      return;
+    }
+    file.text().then((text) => {
+      localStorage.setItem(key, text);
+    });
+    location.reload();
+  }; 
+});
 
-$('#CharListShow').on('click', '.delChar', async function() {
-  const key = this.id;
-  localStorage.removeItem(key);
-  location.reload();
-})
+document.getElementById('charInput')?.addEventListener('change', (event) => {
+ const input = event.target as HTMLInputElement;
+  if (input.files) {
+    const file = input.files[0];
+    let key = file.name.replace(/\.[^/.]+$/, '');
+    file.text().then((text) => {
+      // Version 8 prüfen
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(text, "application/xml");
+      let CharVersionNode = xml.querySelector('CharakterVersion');
+      if (CharVersionNode == null ) { alert('Das ist keine Ilaris-Charakter-Datei und kann somit nicht geladen werden.'); return; } else
+        {let CharVersion = CharVersionNode?.textContent;
+        if (CharVersion != '8') alert('App unterstützt Version 8. Charakter hat Version ' + CharVersion + '. Könnte Probleme bereiten.')}
+      localStorage.setItem(key, text);
+    });
+    location.reload();
+  };
+});
+
+
 
 

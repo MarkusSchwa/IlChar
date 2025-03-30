@@ -1,12 +1,14 @@
-const CACHE_NAME = 'ilchar-cache-v9';
+const CACHE_NAME = 'ilchar-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html',
     'css/style.css',
-    'scripts/app.js',
-    'scripts/classes.js',
-    'scripts/char.js',
-    'scripts/files.ts'
+    // 'scripts/app.ts',
+    // 'scripts/char.ts',
+    // 'scripts/files.ts'
+    'js/app.js',
+    'js/char.js',
+    'js/files.js'
 ];
 
 // Installieren des Service Workers und Caching der Ressourcen

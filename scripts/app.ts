@@ -27,27 +27,42 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-$( document ).ready(function() {
+// Importieren der benötigten Module
+//import { Chars} from './char.js';      
 
+
+document.addEventListener('DOMContentLoaded', (event) => {
     if (localStorage.getItem('Regeln') == null) {
         console.log(`keine Regeln geladen`);
     } else {
-        $("#btnDB").text("Regeln bereits importiert"); 
-        $("#btnDB").prop("disabled", true);
+        const btnDB =  document.getElementById('btnDB') as HTMLButtonElement;
+        if (btnDB) {
+        btnDB.textContent = "Regeln bereits importiert"; 
+        btnDB.disabled = true;
+        }
     }
     let CharNames = "";
-    getCharList().forEach(function(c) {
+    Chars.forEach(c => {
         CharNames += (CharNames == ""?"":", ") + c.Name;
-let risky = c.Version == supportedVersion;
-        $('#CharListShow').append('<div class="card' + (risky?'':' risky') + '"><div>' + c.show('','<br>') + '</div>' 
+        let risky = c.Version == supportedVersion;
+        document.getElementById('CharListShow')?.insertAdjacentHTML('beforeend','<div class="card' + (risky?'':' risky') + '"><div>' + c.show('','<br>') + '</div>' 
             + (risky?'':'<div class="riskyNote">Nicht unterstützte Version ' + c.Version + '.<br>Könnte Probleme machen.<br>Es wird Version ' 
-                + supportedVersion + ' unterstützt.</div>') 
-                + '<div class="buttons">'
-                + '<a class="card-link showChar" href="#" id = "' + c.Name + '" >Zeige</a>'
-                + '<a class="card-link delChar" href="#" id = "' + c.Name + '" >Lösche</a>'
-                + '</div>'
+            + supportedVersion + ' unterstützt.</div>') 
+            + '<div class="buttons">'
+            + '<a class="card-link showChar" href="#" id = "' + c.Name + '" >Zeige</a>'
+            + '<a class="card-link delChar" href="#" id = "' + c.Name + '" >Lösche</a>'
+            + '</div>'
             + '</div>');
-    });
+    }); 
     console.log(CharNames);
-});
-
+    //Button zum Löschen der Charktere aktivieren
+    Array.from(document.getElementsByClassName('delChar')).forEach((btnDel) => {
+        btnDel.addEventListener('click', (event) => {
+          alert('Charakter ' + (event.target as HTMLButtonElement).id + ' wird gelöscht.');
+        const btn = event.target as HTMLButtonElement;
+        const key = btn.id; 
+        localStorage.removeItem(key);
+        location.reload();
+        })
+    });
+})
