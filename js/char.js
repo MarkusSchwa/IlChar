@@ -1,15 +1,34 @@
 "use strict";
+var Details;
+(function (Details) {
+    Details[Details["basic"] = 1] = "basic";
+    Details[Details["short"] = 2] = "short";
+    Details[Details["long"] = 3] = "long";
+})(Details || (Details = {}));
+class Attribut {
+    constructor(xml) {
+        this.Name = xml.getAttribute("name") || "";
+        this.Wert = parseInt(xml.getAttribute("wert") || "");
+    }
+}
 class Char {
     constructor(key, xml) {
-        var _a;
         this.Name = key;
-        this.Version = parseInt(((_a = xml.querySelector('CharakterVersion')) === null || _a === void 0 ? void 0 : _a.textContent) || "");
+        this.Version = parseInt(xml.getElementsByTagName('CharakterVersion')[0].textContent || "");
         this.Profession = xml.getElementsByTagName("Profession")[0].textContent || "";
         this.Kurzbeschreibung = xml.getElementsByTagName("Kurzbeschreibung")[0].textContent || "";
+        this.Eigenheiten = Array.from(xml.getElementsByTagName("Eigenheit")).map((e) => e.textContent || "");
+        this.Attribute = Array.from(xml.getElementsByTagName("Attribut")).map((a) => new Attribut(a));
     }
     show(details, seperator) {
-        return this.Name + seperator + ' Profession: ' + this.Profession
-            + (details == 'short' ? seperator + 'Kurzbeschreibung: ' + this.Kurzbeschreibung : '');
+        let textChar = this.Name + seperator + ' Profession: ' + this.Profession;
+        if (details >= Details.short) {
+            textChar += seperator + 'Kurzbeschreibung: ' + this.Kurzbeschreibung;
+        }
+        if (details >= Details.long) {
+            textChar += seperator + 'Eigenheiten: ' + this.Eigenheiten.join(', ');
+        }
+        return textChar;
     }
 }
 const Chars = [];

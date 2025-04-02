@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var _a;
         CharNames += (CharNames == "" ? "" : ", ") + c.Name;
         let risky = c.Version == supportedVersion;
-        (_a = document.getElementById('CharListShow')) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML('beforeend', '<div class="card' + (risky ? '' : ' risky') + '"><div>' + c.show('', '<br>') + '</div>'
+        (_a = document.getElementById('CharListShow')) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML('beforeend', '<div class="card' + (risky ? '' : ' risky') + '"><div>' + c.show(Details.basic, '<br>') + '</div>'
             + (risky ? '' : '<div class="riskyNote">Nicht unterstützte Version ' + c.Version + '.<br>Könnte Probleme machen.<br>Es wird Version '
                 + supportedVersion + ' unterstützt.</div>')
             + '<div class="buttons">'
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     Array.from(document.getElementsByClassName('showChar')).forEach((btnShow) => {
         btnShow.addEventListener('click', (event) => {
             const key = event.target.id;
-            alert('Charakter ' + key + ' wird angezeigt.');
+            //        alert('Charakter ' + key + ' wird angezeigt.');
             const details = document.getElementById('CharDetailsShow');
             if (details) {
                 const char = Chars.find(c => c.Name === key);
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     console.error('Charakter nicht gefunden:', key);
                     return;
                 }
-                details.innerHTML = char.show('short', '<br>');
+                details.innerHTML = char.show(Details.long, '<br>');
             }
         });
     });
