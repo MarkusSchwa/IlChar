@@ -34,12 +34,16 @@ class Char {
         }
         if (details >= Details.long ) {   
                 textChar += seperator + 'Eigenheiten: ' + this.Eigenheiten.join(', ');
-        }
-                
+        }  
         return textChar;
     }
+    getAttribut(attr: string): number {
+        const Attribut = this.Attribute.find((attribut) => {
+            return attribut;
+        });
+        return Attribut?.Wert || 0;
+    }
 }
-
 
      const Chars: Char[] = [];
      let names = "";
@@ -55,6 +59,8 @@ class Char {
             }
         }
     }; 
+//Basisfunktionen für Scripte
+//roundDown(value)
 
   
 
