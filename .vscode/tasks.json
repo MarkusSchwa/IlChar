@@ -2,6 +2,10 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"command": "workbench.action.files.saveAll",
+			"label": "SaveAllFiles",
+		},
+		{
 			"type": "typescript",
 			"tsconfig": "tsconfig.json",
 			"runOptions": {"runOn": "folderOpen"},

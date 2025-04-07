@@ -77,8 +77,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     console.error('Charakter nicht gefunden:', key);
                     return;
                 }
-                details.innerHTML = char.show(Details.long, '<br>'); 
+                details.innerHTML = char.show(Details.magic, '<br>'); 
             }
         })
     });
 })
+

@@ -1,14 +1,18 @@
 enum Details {
     basic = 1,
     short = 2,
-    long = 3
+    long = 3,
+    magic = 4
 }
 class Attribut {
     Name: string;
     Wert: number;
+    Anzeige: string;
     constructor(xml: Element) {
         this.Name = xml.getAttribute("name") || "";
         this.Wert = parseInt(xml.getAttribute("wert") || "");
+        const result = Regeln.evaluate("//Attribut[@name ='" + this.Name + "']/@anzeigename",Regeln, null, XPathResult.STRING_TYPE, null);
+        this.Anzeige=result.stringValue;
     }
 }
 class Char {
@@ -33,34 +37,52 @@ class Char {
                 textChar += seperator + 'Kurzbeschreibung: ' + this.Kurzbeschreibung;
         }
         if (details >= Details.long ) {   
-                textChar += seperator + 'Eigenheiten: ' + this.Eigenheiten.join(', ');
+            textChar += seperator + 'Eigenheiten: ' + this.Eigenheiten.join(', ');
+        }  
+        if (details >= Details.magic ) {
+                const attr = this.Attribute.find(item => item.Name === "KO");
+                textChar += seperator + attr?.Anzeige + ": " + attr?.Wert;
+                const result = Regeln.evaluate("//AbgeleiteterWert[@name ='WS']/@script",Regeln, null, XPathResult.STRING_TYPE, null);
+                let text: string =  result.stringValue.replace("get","this.get"); 
+                textChar += seperator + 'Wundschwelle: ' + text;
+                textChar += '   => ' + eval(text);
         }  
         return textChar;
     }
     getAttribut(attr: string): number {
-        const Attribut = this.Attribute.find((attribut) => {
-            return attribut;
-        });
-        return Attribut?.Wert || 0;
+        const Attribut = this.Attribute.find(a => a.Name === attr);
+        if (Attribut)
+        return Attribut.Wert; else return 0;
     }
 }
 
-     const Chars: Char[] = [];
+const parser = new DOMParser();
+const regelTemp = localStorage.getItem('Regeln'); 
+let Regeln: Document = new Document;
+if (regelTemp) {
+    Regeln = parser.parseFromString(regelTemp, "application/xml");
+}
+
+    const Chars: Char[] = [];
      let names = "";
      for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key && key != 'Regeln') {
             const item = localStorage.getItem(key);
             if (item) { // Ensures item is not null
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(item, "application/xml"); 
+                 const xml = parser.parseFromString(item, "application/xml"); 
                 let c = new Char(key,xml);
                 Chars.push(c);
             }
         }
     }; 
-//Basisfunktionen für Scripte
-//roundDown(value)
+
+    function roundDown(value: number): number{
+        return Math.floor(value);
+    }
+    
+     
+
 
   
 
