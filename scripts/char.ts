@@ -15,13 +15,26 @@ class Attribut {
         this.Anzeige=result.stringValue;
     }
 }
+class Abgeleitet {
+    Name: string;
+    calcBase: string;
+    Anzeige: string;
+    constructor(xml: Element) {
+        this.Name = xml.getAttribute("name") || "";
+        let calcScript: string = xml.getAttribute("script") || "";
+        calcScript = calcScript.replace("get","this.get")   
+        this.calcBase = calcScript;
+        this.Anzeige = xml.getAttribute("anzeigename") || "";
+    }
+}
 class Char {
     Name: string;
-     Version: number;
-     Profession: string;
-     Kurzbeschreibung: string;
-     Eigenheiten: string[];
-     Attribute: Attribut[] ;
+    Version: number;
+    Profession: string;
+    Kurzbeschreibung: string;
+    Eigenheiten: string[];
+    Attribute: Attribut[];
+    Abgeleitete: Abgeleitet[];
 
     constructor(key: string, xml: Document) {
         this.Name = key;
@@ -30,6 +43,7 @@ class Char {
         this.Kurzbeschreibung = xml.getElementsByTagName("Kurzbeschreibung")[0].textContent || "";
         this.Eigenheiten = Array.from(xml.getElementsByTagName("Eigenheit")).map((e) => e.textContent || "");
         this.Attribute = Array.from(xml.getElementsByTagName("Attribut")).map((a) => new Attribut(a));
+        this.Abgeleitete = Array.from(Regeln.getElementsByTagName("AbgeleiteterWert")).map((a) => new Abgeleitet(a));
     }
     show(details: number, seperator: string): string {
         let textChar: string = this.Name + seperator + ' Profession: ' + this.Profession
@@ -40,12 +54,12 @@ class Char {
             textChar += seperator + 'Eigenheiten: ' + this.Eigenheiten.join(', ');
         }  
         if (details >= Details.magic ) {
-                const attr = this.Attribute.find(item => item.Name === "KO");
-                textChar += seperator + attr?.Anzeige + ": " + attr?.Wert;
-                const result = Regeln.evaluate("//AbgeleiteterWert[@name ='WS']/@script",Regeln, null, XPathResult.STRING_TYPE, null);
-                let text: string =  result.stringValue.replace("get","this.get"); 
-                textChar += seperator + 'Wundschwelle: ' + text;
-                textChar += '   => ' + eval(text);
+                const KO = this.Attribute.find(item => item.Name === "KO");
+                textChar += seperator + KO?.Anzeige + ": " + KO?.Wert;
+            //    const result = Regeln.evaluate("//AbgeleiteterWert[@name ='WS']/@script",Regeln, null, XPathResult.STRING_TYPE, null);
+                const WS = this.Abgeleitete.find(item => item.Name === "WS");
+                if (WS != null)
+                    textChar += seperator + WS.Anzeige + ": " + eval(WS.calcBase);
         }  
         return textChar;
     }
