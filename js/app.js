@@ -67,16 +67,72 @@ document.addEventListener('DOMContentLoaded', (event) => {
     //Button zum Anzeigen der Charktere aktivieren
     Array.from(document.getElementsByClassName('showChar')).forEach((btnShow) => {
         btnShow.addEventListener('click', (event) => {
+            var _a, _b;
             const key = event.target.id;
             //        alert('Charakter ' + key + ' wird angezeigt.');
             const details = document.getElementById('CharDetailsShow');
+            const char = Chars.find(c => c.Name === key);
+            if (!char) {
+                console.error('Charakter nicht gefunden:', key);
+                return;
+            }
             if (details) {
-                const char = Chars.find(c => c.Name === key);
-                if (!char) {
-                    console.error('Charakter nicht gefunden:', key);
-                    return;
-                }
                 details.innerHTML = char.show(Details.magic, '<br>');
+            }
+            const attributes = document.getElementById('Attributes');
+            if (attributes) {
+                const table = document.createElement("table");
+                char.Attribute.forEach((a) => {
+                    const row = document.createElement("tr");
+                    const anzeige = document.createElement("td");
+                    anzeige.textContent = a.Anzeige;
+                    anzeige.style.textAlign = "left";
+                    row.appendChild(anzeige);
+                    const wert = document.createElement("td");
+                    wert.textContent = a.Wert.toString();
+                    wert.style.textAlign = "right";
+                    row.appendChild(wert);
+                    const PW = document.createElement("td");
+                    PW.textContent = (a.Wert * 2).toString();
+                    PW.style.textAlign = "right";
+                    PW.style.color = "red";
+                    PW.style.fontWeight = "bold";
+                    row.appendChild(PW);
+                    table.appendChild(row);
+                });
+                const element = (_a = document.getElementById('Attributes')) === null || _a === void 0 ? void 0 : _a.children[0];
+                if (element) {
+                    attributes.replaceChild(table, element);
+                }
+                else
+                    attributes.appendChild(table);
+            }
+            const abgeleitete = document.getElementById('Abgeleitete');
+            if (abgeleitete) {
+                const table = document.createElement("table");
+                char.Abgeleitete.forEach((a) => {
+                    const row = document.createElement("tr");
+                    const anzeige = document.createElement("td");
+                    anzeige.textContent = a.Anzeige;
+                    anzeige.style.textAlign = "left";
+                    row.appendChild(anzeige);
+                    const wert = document.createElement("td");
+                    if (a.Name == 'RS' || a.Name == 'BE') {
+                        wert.textContent = "???";
+                    }
+                    else {
+                        wert.textContent = eval(a.calcBase.replace("this", "char")).toString();
+                    }
+                    wert.style.textAlign = "right";
+                    row.appendChild(wert);
+                    table.appendChild(row);
+                });
+                const element = (_b = document.getElementById('Abgeleitete')) === null || _b === void 0 ? void 0 : _b.children[0];
+                if (element) {
+                    abgeleitete.replaceChild(table, element);
+                }
+                else
+                    abgeleitete.appendChild(table);
             }
         });
     });

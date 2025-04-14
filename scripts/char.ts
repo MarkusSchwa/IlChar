@@ -54,19 +54,22 @@ class Char {
             textChar += seperator + 'Eigenheiten: ' + this.Eigenheiten.join(', ');
         }  
         if (details >= Details.magic ) {
-                const KO = this.Attribute.find(item => item.Name === "KO");
-                textChar += seperator + KO?.Anzeige + ": " + KO?.Wert;
             //    const result = Regeln.evaluate("//AbgeleiteterWert[@name ='WS']/@script",Regeln, null, XPathResult.STRING_TYPE, null);
-                const WS = this.Abgeleitete.find(item => item.Name === "WS");
-                if (WS != null)
-                    textChar += seperator + WS.Anzeige + ": " + eval(WS.calcBase);
         }  
         return textChar;
     }
     getAttribut(attr: string): number {
         const Attribut = this.Attribute.find(a => a.Name === attr);
         if (Attribut)
-        return Attribut.Wert; else return 0;
+            return Attribut.Wert; else return 0;
+    }
+    getAbgeleitet(abgl: string): number {
+        const Abgeleitet = this.Abgeleitete.find(a => a.Name === abgl);
+        if (Abgeleitet)
+            return eval(Abgeleitet.calcBase); else return 0;
+    }
+    getWS(): number {
+        return this.getAbgeleitet("WS");
     }
 }
 
